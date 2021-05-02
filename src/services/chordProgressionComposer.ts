@@ -60,7 +60,6 @@ class ChordProgressionComposer
 
     private progressionNeedsResolution(progression: ChordProgression)
     {
-        console.log(progression)
         return progression.length > 0 && progression.some(v => v.length > 1);
     }
 }

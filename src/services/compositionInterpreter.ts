@@ -11,6 +11,8 @@ class CompositionInterpreter
         chordProgressionComposer.progressions.subscribe(p => this.onNewProgression(p))
     }
 
+    public use() { }
+
     private onNewProgression(progression: ChordProgression)
     {
         let predicate = '';
@@ -22,15 +24,13 @@ class CompositionInterpreter
         })
 
         const regex = new RegExp(`^${predicate}$`);
-        console.log(regex.source)
-
         const possibleWords = this.getRelevantWordsFromDictionary(enDict, progression);
         const words = possibleWords
             .map(w => ({ word: w, regexResult: regex.exec(w) }))
             .filter(r => r.regexResult?.groups != null && this.allRegexGroupsContainAllChars(r.regexResult.groups, progression))
             .map(r => r.word);
 
-        console.log(words);
+        console.log('[result]', words);
     }
 
     private allRegexGroupsContainAllChars(groups: Record<string, string>, progression: ChordProgression)

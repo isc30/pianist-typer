@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { filter } from 'rxjs/operators';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { chordComposer } from './services/chordComposer';
-import { chordProgressionComposer } from './services/chordProgressionComposer';
 import { compositionInterpreter } from './services/compositionInterpreter';
-import { keyboardListener } from './services/keyboardListener';
 
+compositionInterpreter.use()
 
 // import dic from './dictionaries/en.json'
 // const enDict = dic as string[];
@@ -28,32 +28,35 @@ import { keyboardListener } from './services/keyboardListener';
 
 //   console.log(JSON.stringify(newDic))
 
-const w = compositionInterpreter;
-
-//keyboardListener.keys.subscribe(console.info)
-//chordListener.chords.subscribe(console.warn)
-// compositionInterpreter.progressions.subscribe(p =>
-// {
-//   let s = '';
-//   p.forEach(c =>
-//     {
-//       if (c.length > 1)
-//       {
-//         s += "(";
-//         s += c.reduce((p, c) => `${p}${c}`);
-//         s += ")";
-//       }
-//       else
-//       {
-//         s += c[0];
-//       }
-//     })
-//   console.log(s)
-// })
+// keyboardListener.keys.subscribe(keys => console.debug('[keys]', keys))
+chordComposer.chords.pipe(filter(c => c.length !== 1 || c[0] !== ' ')).subscribe(chord => console.debug('[chord]', chord))
 
 ReactDOM.render(
   <React.StrictMode>
-    Hey!
+    <h1>Welcome to THE PIANO TYPER!</h1>
+    <p>The App won't work if you don't have a mechanical keyboard...</p>
+    <h2>How to use?</h2>
+    <ol>
+      <li>Open the Dev Console (F12?)</li>
+      <li>Click anywhere on this page (it uses window keydown events)</li>
+      <li>Start typing</li>
+      <li>Press "SPACE" to confirm and see the output</li>
+    </ol>
+    <h2>Examples:</h2>
+    <q>
+      Press (HE) at the same time, release, then (LO) at the same time too, release.
+      Now confirm with "SPACE", and check the console
+    </q>
+    <q>
+      Press (ASN) =&gt; (TIN) =&gt; [SPACE]
+      Now confirm with "SPACE", and check the console
+    </q>
+    <q>
+      Press: (S) =&gt; (AT) =&gt; (TI) =&gt; (C) =&gt; [SPACE]
+    </q>
+    <q>
+      Press: (S) =&gt; (ACP) =&gt; (E) =&gt; [SPACE]
+    </q>
   </React.StrictMode>,
   document.getElementById('root')
 );
